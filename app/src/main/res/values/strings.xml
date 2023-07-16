@@ -4,8 +4,12 @@
     //Download Button
     <string name="download_btn">Descargar</string>
     //Edit Text
-    <string name="edit_text_tittle">Ingresar búsqueda</string>
+    <string name="edit_text_tittle">Ingresar búsqueda por raza</string>
     //Search Button
     <string name="search_btn">Buscar</string>
+    //Return Button
+    <string name="back_to_main_btn">Inicio</string>
+    //Back Button
+    <string name="back_to_recyclerview_btn">Atras</string>
 
 </resources>

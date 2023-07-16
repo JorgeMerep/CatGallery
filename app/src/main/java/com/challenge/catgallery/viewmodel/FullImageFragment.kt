@@ -1,7 +1,7 @@
 package com.challenge.catgallery.viewmodel
 
 import android.app.DownloadManager
-import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,14 +12,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.challenge.catgallery.R
+import com.challenge.catgallery.MainActivity
 
 class FullImageFragment : Fragment() {
     private lateinit var catImageView: ImageView
     private lateinit var downloadButton: Button
+    private lateinit var backToMainButton: Button
+    private lateinit var backToRecyclerViewButton: Button
     private var imageUrl: String? = null
-
 
     companion object {
         private const val ARG_IMAGE_URL = "image_url"
@@ -42,6 +46,8 @@ class FullImageFragment : Fragment() {
 
         catImageView = view.findViewById(R.id.fullImageView)
         downloadButton = view.findViewById(R.id.downloadButton)
+        backToMainButton = view.findViewById(R.id.backToMainButton)
+        backToRecyclerViewButton = view.findViewById(R.id.backToRecyclerViewButton)
 
         imageUrl = arguments?.getString(ARG_IMAGE_URL)
         imageUrl?.let {
@@ -53,6 +59,24 @@ class FullImageFragment : Fragment() {
         downloadButton.setOnClickListener {
             downloadImage()
         }
+
+        backToMainButton.setOnClickListener {
+            backToMainButton.setOnClickListener {
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+                requireActivity().finish()
+            }
+        }
+
+        backToRecyclerViewButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        val isDownloadButtonVisible = true
+        downloadButton.isVisible = isDownloadButtonVisible
+
+        val isBackToMainButtonVisible = true
+        backToMainButton.isVisible = isBackToMainButtonVisible
 
         return view
     }
@@ -66,8 +90,8 @@ class FullImageFragment : Fragment() {
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES, "CatImages.jpg")
 
             val downloadManager =
-                context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            downloadManager.enqueue(request)
+                ContextCompat.getSystemService(context, DownloadManager::class.java)
+            downloadManager?.enqueue(request)
 
             Toast.makeText(context, "Descargando imagen...", Toast.LENGTH_SHORT).show()
         }

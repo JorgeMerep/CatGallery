@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".viewmodel.CatListFragment">
+    tools:context=".viewmodel.CatListFragment"
+    android:backgroundTint="@color/background_color"
+    android:backgroundTintMode="multiply">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/catsRecyclerView"

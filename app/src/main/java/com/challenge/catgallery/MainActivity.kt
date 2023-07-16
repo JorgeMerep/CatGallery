@@ -45,6 +45,3 @@ class MainActivity : AppCompatActivity() {
         keyboard.hideSoftInputFromWindow(button.windowToken, 0)
     }
 }
-
-
-
