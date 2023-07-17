@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         ApiClient.initialize(this)
 
         val breedEditText = findViewById<EditText>(R.id.breedEditText)
