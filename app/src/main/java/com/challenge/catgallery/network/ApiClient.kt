@@ -19,7 +19,7 @@ object ApiClient {
     }
 
     private val retrofit: Retrofit by lazy {
-        val cacheDirectory: File = File(context.cacheDir, "api_cache")
+        val cacheDirectory = File(context.cacheDir, "api_cache")
         val cacheSize: Long = 10 * 1024 * 1024 // 10 MB
         val cache = Cache(cacheDirectory, cacheSize)
 

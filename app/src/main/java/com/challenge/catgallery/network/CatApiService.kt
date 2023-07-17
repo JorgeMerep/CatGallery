@@ -12,6 +12,7 @@ interface CatApiService {
         @Query("api_key") apiKey: String,
         @Query("breed_ids") breed: String,
         @Query("limit") limit: Int,
+        @Query("page") page: Int
     ): Call<List<Cat>>
 
     @GET("breeds")

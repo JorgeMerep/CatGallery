@@ -18,7 +18,7 @@ fun searchImagesByBreed(breedName: String, callback: (List<Cat>?, String?) -> Un
                     val breedId = getBreedId(breeds, breedName)
                     if (breedId != null) {
                         // Segunda llamada para obtener las imágenes de gatos por raza
-                        catApiService.searchImagesByBreed(ApiClient.API_KEY, breedId, 10)
+                        catApiService.searchImagesByBreed(ApiClient.API_KEY, breedId, 100, 1)
                             .enqueue(object : Callback<List<Cat>> {
                                 override fun onResponse(
                                     call: Call<List<Cat>>,

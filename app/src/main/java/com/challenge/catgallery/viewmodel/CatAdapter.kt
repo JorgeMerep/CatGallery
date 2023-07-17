@@ -10,7 +10,11 @@ import com.bumptech.glide.Glide
 import com.challenge.catgallery.R
 import com.challenge.catgallery.model.Cat
 
-class CatAdapter(var cats: List<Cat>) : RecyclerView.Adapter<CatAdapter.ViewHolder>() {
+class CatAdapter(var cats: MutableList<Cat>, private val loadMoreCallback: () -> Unit) :
+    RecyclerView.Adapter<CatAdapter.ViewHolder>() {
+
+    private val visibleThreshold = 5
+    private var loading = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,8 +28,6 @@ class CatAdapter(var cats: List<Cat>) : RecyclerView.Adapter<CatAdapter.ViewHold
 
         Glide.with(imageView.context)
             .load(cat.url)
-            .placeholder(R.drawable.ic_clock) // Imagen de reloj mientras se carga la imagen
-            .error(R.drawable.ic_error) // Imagen de error en caso de que no se pueda cargar la imagen
             .into(imageView)
 
         imageView.setOnClickListener {
@@ -39,12 +41,30 @@ class CatAdapter(var cats: List<Cat>) : RecyclerView.Adapter<CatAdapter.ViewHold
                     .commit()
             }
         }
+
+        // Detecta el último elemento visible para cargar más datos
+        if (position == cats.size - visibleThreshold && !loading) {
+            loading = true
+            loadMoreCallback.invoke() // Llama al callback para cargar más datos
+        }
     }
 
     override fun getItemCount(): Int {
         return cats.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun updateCats(newCats: List<Cat>) {
+        cats.clear()
+        cats.addAll(newCats)
+        notifyDataSetChanged()
     }
+
+    fun addCats(newCats: List<Cat>) {
+        val startPos = cats.size
+        cats.addAll(newCats)
+        notifyItemRangeInserted(startPos, newCats.size)
+        loading = false
+    }
+
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }
