@@ -20,6 +20,7 @@ class CatViewModel : ViewModel() {
     private val _cats = MutableLiveData<List<Cat>?>()
     val cats: MutableLiveData<List<Cat>?> = _cats
 
+    //Implementaciones para la nueva funcionalidad de paginacion del RV.
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -31,8 +32,11 @@ class CatViewModel : ViewModel() {
 
     private var currentPage = 1
     private var totalPage = 10
-
     private var currentBreed: String = ""
+
+    // Nueva funcionalidad para la implementacion del showBreeds
+    private val _breeds = MutableLiveData<List<Breed>?>()
+    val breeds: LiveData<List<Breed>?> = _breeds
 
     fun searchCatsByBreed(breed: String, limit: Int, page: Int, callback: () -> Unit) {
         currentBreed = breed
@@ -49,7 +53,7 @@ class CatViewModel : ViewModel() {
                                 override fun onResponse(
                                     call: Call<List<Cat>>,
                                     response: Response<List<Cat>>,
-                                ) {
+                                ) {//Agregado de la nueva funcionalidad de paginacion
                                     if (response.isSuccessful) {
                                         val cats = response.body()
                                         if (page == 1) {
@@ -98,7 +102,7 @@ class CatViewModel : ViewModel() {
             }
         })
     }
-
+    //Funcion que se encarga de cargar mas gatos en el RV cuando se llega al final de la lista
     fun loadMoreCatsIfNeeded(visibleItemCount: Int, lastVisibleItemPosition: Int) {
         if (!isLoading.value?.not()!! && currentPage < totalPage &&
             visibleItemCount + lastVisibleItemPosition >= (cats.value?.size ?: 10) - 5
@@ -106,8 +110,7 @@ class CatViewModel : ViewModel() {
             loadMoreCats()
         }
     }
-
-
+    //Funccion que maneja el consumo del API para cargar mas gatos en el RV
     private fun loadMoreCats() {
         if (isLoading.value == false && currentPage < totalPage) {
             _isLoading.value = true
@@ -177,5 +180,20 @@ class CatViewModel : ViewModel() {
             }
         }
         return null
+    }
+
+    // Nueva funcion que obtiene todas las razas presentes en la API
+    fun fetchBreeds() {
+        catApiService.searchBreeds(ApiClient.API_KEY).enqueue(object : Callback<List<Breed>> {
+            override fun onResponse(call: Call<List<Breed>>, response: Response<List<Breed>>) {
+                if (response.isSuccessful) {
+                    _breeds.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Breed>>, t: Throwable) {
+                _error.value = "Error: ${t.message}"
+            }
+        })
     }
 }

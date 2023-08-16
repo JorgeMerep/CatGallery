@@ -6,10 +6,13 @@
     //Edit Text
     <string name="edit_text_tittle">Ingresar búsqueda por raza</string>
     //Search Button
-    <string name="search_btn">Buscar</string>
+    <string name="search_btn">Search</string>
     //Return Button
     <string name="back_to_main_btn">Inicio</string>
     //Back Button
     <string name="back_to_recyclerview_btn">Atras</string>
+    //Show Breeds Button
+    <string name="show_breeds_btn">Mostrar Razas</string>
+
 
 </resources>

@@ -13,6 +13,7 @@ import com.challenge.catgallery.model.Cat
 class CatAdapter(var cats: MutableList<Cat>, private val loadMoreCallback: () -> Unit) :
     RecyclerView.Adapter<CatAdapter.ViewHolder>() {
 
+    //Nueva implementacion para la funcionalidad de paginacion del RV
     private val visibleThreshold = 5
     private var loading = false
 
@@ -42,23 +43,23 @@ class CatAdapter(var cats: MutableList<Cat>, private val loadMoreCallback: () ->
             }
         }
 
-        // Detecta el último elemento visible para cargar más datos
+        // Detecta el último elemento visible para cargar más imagenes
         if (position == cats.size - visibleThreshold && !loading) {
             loading = true
-            loadMoreCallback.invoke() // Llama al callback para cargar más datos
+            loadMoreCallback.invoke() // Llama al callback para cargar más imagenes
         }
     }
 
     override fun getItemCount(): Int {
         return cats.size
     }
-
+    //Funcion que actualiza la lista de gatos con la nueva funcionalidad de paginacion
     fun updateCats(newCats: List<Cat>) {
         cats.clear()
         cats.addAll(newCats)
         notifyDataSetChanged()
     }
-
+    //Funcion que agrega mas gatos a la lista con la nueva funcionalidad de paginacion
     fun addCats(newCats: List<Cat>) {
         val startPos = cats.size
         cats.addAll(newCats)

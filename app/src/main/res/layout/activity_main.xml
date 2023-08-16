@@ -8,20 +8,6 @@
     android:backgroundTint="@color/background_color"
     android:backgroundTintMode="multiply">
 
-    <EditText
-        android:id="@+id/breedEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:hint="@string/edit_text_tittle"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:textColorHint="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
@@ -47,13 +33,41 @@
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="407dp"
-        android:layout_height="672dp"
+        android:layout_width="410dp"
+        android:layout_height="822dp"
         android:layout_below="@id/breedEditText"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/breedEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:hint="@string/edit_text_tittle"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="-50dp"
+        tools:layout_editor_absoluteY="-3dp" />
+
+<!--    //Nuevo btn para mostrar razas -->
+    <Button
+        android:id="@+id/showBreedsButton"
+        android:layout_width="91dp"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="56dp"
+        android:onClick="showBreeds"
+        android:text="Show Breeds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/breedEditText"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

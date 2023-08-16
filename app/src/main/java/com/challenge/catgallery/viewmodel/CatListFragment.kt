@@ -23,7 +23,6 @@ class CatListFragment : Fragment() {
     private var isLoading = false
     private var isLastPage = false
     private var currentPage = 1
-    private var totalPage = 10
     private var currentBreed = ""
 
     override fun onCreateView(
@@ -62,7 +61,7 @@ class CatListFragment : Fragment() {
             }
         })
 
-        // Observe cambios en la lista de gatos
+        // Observa cambios en la lista de gatos
         catViewModel.cats.observe(viewLifecycleOwner, Observer { cats ->
             if (cats != null) {
                 if (currentPage == 1) {
@@ -73,7 +72,7 @@ class CatListFragment : Fragment() {
             }
         })
 
-        // Observar isLoading y isLastPage
+        // Observa el isLoading y el isLastPage
         catViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             this.isLoading = isLoading
         })
@@ -85,7 +84,7 @@ class CatListFragment : Fragment() {
         return view
     }
 
-
+    //Funcion que se encarga de cargar mas gatos en el RV cuando se llega al final de la lista
     private fun loadMoreCats() {
         catViewModel.searchCatsByBreed(currentBreed, PAGE_SIZE, currentPage + 1) {
             isLoading = false

@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.challenge.catgallery.network.ApiClient
@@ -23,8 +24,17 @@ class MainActivity : AppCompatActivity() {
 
         ApiClient.initialize(this)
 
+        // Inicializa el ViewModel para la implementacion de la nueva funcionalidad
+        catViewModel = ViewModelProvider(this)[CatViewModel::class.java]
+        catViewModel.fetchBreeds()
+
         val breedEditText = findViewById<EditText>(R.id.breedEditText)
         val searchButton = findViewById<Button>(R.id.searchButton)
+        val showBreedsButtonMain = findViewById<Button>(R.id.showBreedsButton)
+        showBreedsButtonMain.setOnClickListener {
+            showBreedsDialog()
+        }
+
 
         // Inicializa el ProgressBar
         progressBar = findViewById(R.id.progressBar)
@@ -48,6 +58,21 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
+    }
+
+    //Nueva funcion que muestra el Dialog con todas las razas presentes en la API
+    private fun showBreedsDialog() {
+        val breeds = catViewModel.breeds.value
+
+        val breedNames = breeds?.joinToString("\n") { it.name }
+
+        val dialogBuilder = AlertDialog.Builder(this)
+            .setTitle("All Breeds")
+            .setMessage(breedNames)
+            .setPositiveButton("OK", null)
+
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 
     private fun hiddenKeyboard(context: Context, button: Button) {
